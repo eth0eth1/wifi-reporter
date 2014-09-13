@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.view.View;
 
 import java.util.List;
 
@@ -33,19 +34,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //USE THIS AREA FOR QUICK TEST
-        Log.d("","BEGIN TEST");
-        WifiManager mainWifiObj;
-        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-        WifiScanReceiver wifiReceiver = new WifiScanReceiver();
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-        List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-        String data = wifiScanList.get(0).toString();
-        Log.v("WifiScan", String.valueOf(wifiScanList));
-        //
-
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -58,6 +46,23 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    public void wifiScan(View view) {
+        WifiManager mainWifiObj;
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        WifiScanReceiver wifiReceiver = new WifiScanReceiver();
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
+
+        for (ScanResult result: wifiScanList){
+            Log.v("Scan Results",result.SSID.toString()+","+result.BSSID.toString());
+        }
+        //String data = wifiScanList.get(0).toString();
+        //Log.v("WifiScan", String.valueOf(wifiScanList));
+        //
     }
 
     class WifiScanReceiver extends BroadcastReceiver {
