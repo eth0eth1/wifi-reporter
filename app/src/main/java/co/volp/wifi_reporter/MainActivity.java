@@ -60,9 +60,7 @@ public class MainActivity extends Activity {
         for (ScanResult result: wifiScanList){
             Log.v("Scan Results",result.SSID.toString()+","+result.BSSID.toString());
         }
-        //String data = wifiScanList.get(0).toString();
-        //Log.v("WifiScan", String.valueOf(wifiScanList));
-        //
+
     }
 
     class WifiScanReceiver extends BroadcastReceiver {

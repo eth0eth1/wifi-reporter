@@ -21,4 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('C:/Users/Niros/Cloud Storage/Dropbox/Personal/Development/GitHub/wifi-reporter/libs/activation.jar')
+    compile files('C:/Users/Niros/Cloud Storage/Dropbox/Personal/Development/GitHub/wifi-reporter/libs/additionnal.jar')
+    compile files('C:/Users/Niros/Cloud Storage/Dropbox/Personal/Development/GitHub/wifi-reporter/libs/mail.jar')
 }
