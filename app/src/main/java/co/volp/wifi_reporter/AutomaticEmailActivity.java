@@ -12,15 +12,15 @@ public class AutomaticEmailActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        m = new Mail("yourEmail@domain.tld", "yourpassword");
+        m = new Mail("vumx@outlook.com", "ZzTEBiUxcURMEAc9");
     }
 
     public void sendEmail(View view){
-        String[] toArr = {"toemail1@domain1.tld"}; // This is an array, you can add more emails, just separate them with a coma
+        String[] toArr = {"9212227@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma
         m.setTo(toArr); // load array to setTo function
-        m.setFrom("fromEmail@domain.tld"); // who is sending the email
-        m.setSubject("subject");
-        m.setBody("your message goes here");
+        m.setFrom("vumx@outlook.com"); // who is sending the email
+        m.setSubject("Test Email");
+        m.setBody("This is a test");
 
         try {
             m.addAttachment("/sdcard/myPicture.jpg");  // path to file you want to attach

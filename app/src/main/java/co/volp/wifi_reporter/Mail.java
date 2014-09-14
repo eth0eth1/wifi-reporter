@@ -1,6 +1,8 @@
 package co.volp.wifi_reporter;
 
 
+import android.util.Log;
+
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.CommandMap;
@@ -42,15 +44,15 @@ public class Mail extends javax.mail.Authenticator {
 
 
     public Mail() {
-        _host = "smtp.gmail.com"; // default smtp server
+        _host = "smtp.mail.yahoo.com"; // default smtp server
         _port = "465"; // default smtp port
         _sport = "465"; // default socketfactory port
 
-        _user = ""; // username
-        _pass = ""; // password
-        _from = ""; // email sent from
-        _subject = ""; // email subject
-        _body = ""; // email body
+        _user = "zemix3@yahoo.com"; // username
+        _pass = "regpsgrDmderCXYpX6MW"; // password
+        _from = "zemix3@yahoo.com"; // email sent from
+        _subject = "Test Email"; // email subject
+        _body = "This is a test"; // email body
 
         _debuggable = false; // debug mode on or off - default off
         _auth = true; // smtp authentication - default on
@@ -65,6 +67,7 @@ public class Mail extends javax.mail.Authenticator {
         mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
         mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         CommandMap.setDefaultCommandMap(mc);
+        Log.d("Mail.java", "Success on Calling Mail()");
     }
 
     public Mail(String user, String pass) {
@@ -72,19 +75,27 @@ public class Mail extends javax.mail.Authenticator {
 
         _user = user;
         _pass = pass;
+        Log.d("Mail.java", "Success on Calling Mail(user,pass)");
     }
 
     public boolean send() throws Exception {
         Properties props = _setProperties();
+        Log.d("Mail.java", "1. Start calling Send()");
 
         if(!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) {
+            Log.d("Mail.java", "2. Step into first if");
             Session session = Session.getInstance(props, this);
 
+            Log.d("Mail.java", "3. Create Instance");
             MimeMessage msg = new MimeMessage(session);
 
+            Log.d("Mail.java", "4. Create Message");
             msg.setFrom(new InternetAddress(_from));
 
+            Log.d("Mail.java", "5. Set From");
             InternetAddress[] addressTo = new InternetAddress[_to.length];
+
+            Log.d("Mail.java", "6. Set To");
             for (int i = 0; i < _to.length; i++) {
                 addressTo[i] = new InternetAddress(_to[i]);
             }
@@ -100,9 +111,11 @@ public class Mail extends javax.mail.Authenticator {
 
             // Put parts in message
             msg.setContent(_multipart);
+            Log.d("Mail.java", "7. Finish putting together email, ready to send");
 
             // send email
             Transport.send(msg);
+            Log.d("Mail.java", "8. Message Sent");
 
             return true;
         } else {
