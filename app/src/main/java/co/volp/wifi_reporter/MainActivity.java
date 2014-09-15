@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import javax.mail.MessagingException;
@@ -59,7 +61,21 @@ public class MainActivity extends Activity {
 
     }
 
-    public void wifiScan(View view) {
+    public void wifiScanButton(View view){
+        wifiScan();
+    }
+
+    public void serviceStartButton(View view){
+        Log.v("Start Service","Button Pressed");
+        startService(new Intent(getBaseContext(), ScanService.class));
+    }
+
+    public void serviceStopButton(View view){
+        Log.v("Stop Service","Button Pressed");
+        stopService(new Intent(getBaseContext(), ScanService.class));
+    }
+
+    public void wifiScan() {
         WifiManager mainWifiObj;
         mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
@@ -74,7 +90,11 @@ public class MainActivity extends Activity {
 
             Log.v("Scan Results",result.SSID.toString()+","+result.BSSID.toString());
         }
+        //Launch Database
+        databaseHelper wifidatabase = new databaseHelper(getApplicationContext());
+        Log.v("Test", wifidatabase.toString());
 
+        sendEmail("Wifi Networks",wifiScanList.toString());
 
     }
 
@@ -84,15 +104,15 @@ public class MainActivity extends Activity {
     }
 
 
-    public void sendEmail(View view) {
+    public void sendEmail(String email_subject, String email_body) {
         Mail m;
         //m = new Mail("vumx@outlook.com", "ZzTEBiUxcURMEAc9");
         m = new Mail();
         String[] toArr = {"9212227@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma
         m.setTo(toArr); // load array to setTo function
         m.setFrom("zemix3@yahoo.com"); // who is sending the email
-        m.setSubject("Wifi Scan Results");
-        m.setBody(wifiNetworks);
+        m.setSubject(email_subject);
+        m.setBody(email_body);
 
         try {
             //m.addAttachment("/sdcard/myPicture.jpg");  // path to file you want to attach
@@ -126,15 +146,28 @@ public class MainActivity extends Activity {
         databaseHelper(Context context)
         {
             super(context, database_name, null, database_version);
+            Log.v("Database","Database grabbed Success!");
         }
 
         public void onCreate(SQLiteDatabase db)
         {
-
+            try
+            {
+                db.execSQL("create table networks (_id integer primary_key autoincrement, timestamp varchar(255), ssid varchar(255), essid varchar(255), security varchar(255));");
+                Log.v("Database","Database Created Success!");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-
+            try
+            {
+                db.execSQL("drop table if exists networks");
+                onCreate(db);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

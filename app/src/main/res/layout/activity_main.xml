@@ -13,16 +13,24 @@
         android:layout_height="wrap_content"
         android:text="@string/scan_button"
         android:id="@+id/buttonScan"
-        android:onClick="wifiScan"/>
+        android:onClick="wifiScanButton"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Email"
-        android:id="@+id/buttonEmail"
+        android:text="Start Service"
+        android:id="@+id/button"
         android:layout_below="@+id/buttonScan"
-        android:layout_alignEnd="@+id/buttonScan"
         android:layout_alignParentStart="true"
-        android:onClick="sendEmail"/>
+        android:onClick="serviceStartButton"/>/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Service"
+        android:id="@+id/button2"
+        android:layout_below="@+id/buttonScan"
+        android:layout_alignParentEnd="true"
+        android:onClick="serviceStopButton"/>/>
 
 </RelativeLayout>

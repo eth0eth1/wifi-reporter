@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">wifi-reporter</string>
-    <string name="scan_button">Run Scan</string>
+    <string name="scan_button">Scan and Email</string>
     <string name="action_settings">Settings</string>
 
 </resources>
