@@ -28,7 +28,7 @@ import android.database.sqlite.*;
 
 public class MainActivity extends Activity {
 
-    private String wifiNetworks;
+    public String wifiNetworks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,15 @@ public class MainActivity extends Activity {
     }
 
     public void serviceStartButton(View view){
-        Log.v("Start Service","Button Pressed");
-        startService(new Intent(getBaseContext(), ScanService.class));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.v("Start Service","Button Pressed");
+                startService(new Intent(getBaseContext(), ScanService.class));
+            }
+        }).start();
+
     }
 
     public void serviceStopButton(View view){
