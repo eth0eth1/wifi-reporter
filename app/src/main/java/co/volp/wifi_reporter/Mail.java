@@ -80,22 +80,24 @@ public class Mail extends javax.mail.Authenticator {
 
     public boolean send() throws Exception {
         Properties props = _setProperties();
-        Log.d("Mail.java", "1. Start calling Send()");
+        //Log.d("Mail.java", "1. Start calling Send()");
 
         if(!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) {
-            Log.d("Mail.java", "2. Step into first if");
+            //Log.d("Mail.java", "2. Step into first if");
             Session session = Session.getInstance(props, this);
 
-            Log.d("Mail.java", "3. Create Instance");
+            //Log.d("Mail.java", "3. Create Instance");
             MimeMessage msg = new MimeMessage(session);
+            //Added to support HTML:
 
-            Log.d("Mail.java", "4. Create Message");
+
+            //Log.d("Mail.java", "4. Create Message");
             msg.setFrom(new InternetAddress(_from));
 
-            Log.d("Mail.java", "5. Set From");
+            //Log.d("Mail.java", "5. Set From");
             InternetAddress[] addressTo = new InternetAddress[_to.length];
 
-            Log.d("Mail.java", "6. Set To");
+            //Log.d("Mail.java", "6. Set To");
             for (int i = 0; i < _to.length; i++) {
                 addressTo[i] = new InternetAddress(_to[i]);
             }
@@ -110,8 +112,8 @@ public class Mail extends javax.mail.Authenticator {
             _multipart.addBodyPart(messageBodyPart);
 
             // Put parts in message
-            msg.setContent(_multipart);
-            Log.d("Mail.java", "7. Finish putting together email, ready to send");
+            msg.setContent(_body,"text/html; charset=utf-8");
+            //Log.d("Mail.java", "7. Finish putting together email, ready to send");
 
             // send email
             Transport.send(msg);

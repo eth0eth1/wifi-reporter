@@ -6,31 +6,26 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#ff000000">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/scan_button"
-        android:id="@+id/buttonScan"
-        android:onClick="wifiScanButton"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Service"
+        android:text="Start Scan"
         android:id="@+id/button"
-        android:layout_below="@+id/buttonScan"
         android:layout_alignParentStart="true"
-        android:onClick="serviceStartButton"/>/>
+        android:onClick="serviceStartButton"
+        android:background="#ff499249" />/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop Service"
+        android:text="Abort Scan"
         android:id="@+id/button2"
-        android:layout_below="@+id/buttonScan"
-        android:layout_alignParentEnd="true"
-        android:onClick="serviceStopButton"/>/>
+        android:onClick="serviceStopButton"
+        android:background="#ffc4453e"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true" />/>
 
 </RelativeLayout>

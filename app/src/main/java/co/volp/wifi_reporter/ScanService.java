@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ScanService extends Service {
@@ -56,23 +57,25 @@ public class ScanService extends Service {
     public void wifiScan() {
         WifiManager mainWifiObj;
         mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
         WifiScanReceiver wifiReceiver = new WifiScanReceiver();
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
+        //Pull scan into List object
         List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-
-        wifiNetworks = wifiScanList.toString();
-
+        //Loop through List and add to string
+        String email = null;
+        email = "<table style=\"width:100%\">";
         for (ScanResult result: wifiScanList){
-
             Log.v("Scan Results",result.SSID.toString()+","+result.BSSID.toString());
+            email += "<tr>" + "<td>" + result.SSID.toString() + "</td>" + "<td>" + result.BSSID.toString() + "</td>" + "<td>" + result.capabilities.toString() + "</td>" + "</tr>";
         }
+        email += "</table>";
+        Log.v("Email", email);
         //Launch Database
         databaseHelper wifidatabase = new databaseHelper(getApplicationContext());
-        Log.v("Test", wifidatabase.toString());
 
-        sendEmail("Wifi Networks",wifiScanList.toString());
+        wifiNetworks = wifiScanList.toString();
+        sendEmail("Wifi Networks",email);
 
     }
 
