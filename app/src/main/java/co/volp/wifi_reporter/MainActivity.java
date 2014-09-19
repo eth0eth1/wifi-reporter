@@ -28,12 +28,12 @@ import android.database.sqlite.*;
 
 public class MainActivity extends Activity {
 
-    public String wifiNetworks;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Setup multi threading
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
@@ -56,87 +56,23 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
 
     }
 
-    public void wifiScanButton(View view){
-        wifiScan();
-    }
-
+    //Start Scanning Button
     public void serviceStartButton(View view){
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.v("Start Service","Button Pressed");
+                Toast.makeText(this, "Scan started", Toast.LENGTH_SHORT).show();
                 startService(new Intent(getBaseContext(), ScanService.class));
-            }
-        }).start();
-
     }
 
+    //Stop Scanning Button
     public void serviceStopButton(View view){
         Log.v("Stop Service","Button Pressed");
         stopService(new Intent(getBaseContext(), ScanService.class));
     }
 
-    public void wifiScan() {
-        WifiManager mainWifiObj;
-        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-        WifiScanReceiver wifiReceiver = new WifiScanReceiver();
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-        List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-
-        wifiNetworks = wifiScanList.toString();
-
-        for (ScanResult result: wifiScanList){
-
-            Log.v("Scan Results",result.SSID.toString()+","+result.BSSID.toString());
-        }
-        //Launch Database
-        databaseHelper wifidatabase = new databaseHelper(getApplicationContext());
-        Log.v("Test", wifidatabase.toString());
-
-        sendEmail("Wifi Networks",wifiScanList.toString());
-
-    }
-
-    class WifiScanReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-        }
-    }
-
-
-    public void sendEmail(String email_subject, String email_body) {
-        Mail m;
-        //m = new Mail("vumx@outlook.com", "ZzTEBiUxcURMEAc9");
-        m = new Mail();
-        String[] toArr = {"9212227@gmail.com"}; // This is an array, you can add more emails, just separate them with a coma
-        m.setTo(toArr); // load array to setTo function
-        m.setFrom("zemix3@yahoo.com"); // who is sending the email
-        m.setSubject(email_subject);
-        m.setBody(email_body);
-
-        try {
-            //m.addAttachment("/sdcard/myPicture.jpg");  // path to file you want to attach
-            if(m.send()) {
-                // success
-                Toast.makeText(MainActivity.this, "Email was sent successfully.", Toast.LENGTH_LONG).show();
-            } else {
-                // failure
-                Toast.makeText(MainActivity.this, "Email was not sent.", Toast.LENGTH_LONG).show();
-            }
-        } catch(Exception e) {
-            // some other problem
-            Toast.makeText(MainActivity.this, "There was a problem sending the email.", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-
-    }
 
     // Define the variables for the database
     public final String database_name = "storedwifireports.db";

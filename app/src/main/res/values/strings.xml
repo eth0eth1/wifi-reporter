@@ -3,6 +3,8 @@
 
     <string name="app_name">Wifi Reporter</string>
     <string name="scan_button">Scan and Email</string>
+    <string name="start_button">Scan and Email</string>
+    <string name="abort_button">Scan and Email</string>
     <string name="action_settings">Settings</string>
 
 </resources>
